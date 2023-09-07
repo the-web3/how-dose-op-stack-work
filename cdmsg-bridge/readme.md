@@ -57,6 +57,25 @@ mapping(bytes32 => bool) public finalizedWithdrawals
 - L2StandardBridge
   - finalizeBridgeETH 函数会去执行 SafeCall.call，导致位置，充值流程就完事儿
  
+注意：对于 ETH 充值来说，由于 OptimismPortal 和 L1StandardBridge 里面存在 receive 方法
+
+- OptimismPortal
+```
+receive() external payable {
+   depositTransaction(msg.sender, msg.value, RECEIVE_DEFAULT_GAS_LIMIT, false, bytes(""));
+}
+```
+
+- L1StandardBridge
+```
+receive() external payable override onlyEOA {
+   _initiateETHDeposit(msg.sender, msg.sender, RECEIVE_DEFAULT_GAS_LIMIT, bytes(""));
+}
+```
+
+因此，直接把 ETH 转入到 OptimismPortal 和 L1StandardBridge 里面，也会属于 ETH 的充值交易
+
+ 
 ## 4.2 ERC20 充值
 
 [![ethdeposit](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/cdmsg-bridge/images/erc20deposit.png)](https://github.com/guoshijiang/how-dose-op-stack-work)
