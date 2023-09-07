@@ -73,7 +73,7 @@ receive() external payable override onlyEOA {
 }
 ```
 
-因此，直接把 ETH 转入到 OptimismPortal 和 L1StandardBridge 里面，也会属于 ETH 的充值交易
+因此，直接把 ETH 转入到 OptimismPortal 和 L1StandardBridge 里面，也属于 ETH 的充值交易
 
  
 ## 4.2 ERC20 充值
