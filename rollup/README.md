@@ -8,13 +8,13 @@ Op-stack 的 rollup 由两个服务来承担
 
 ## 2.Rollup 架构
 
-
-
+[![rollup_art](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/rollup/rollup_art.png)](https://github.com/guoshijiang/how-dose-op-stack-work)
 
 ## 3.op-batcher
 
 ### 3.1 执行流程图
 
+[![op-batcher](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/rollup/op-batcher/op-batcher.png)](https://github.com/guoshijiang/how-dose-op-stack-work)
 
 ### 3.2 详细执行流程
 - loadBlocksIntoState 会执行以下逻辑
@@ -51,6 +51,7 @@ Op-stack 的 rollup 由两个服务来承担
 ## 4.op-proposer
 ### 4.1 执行流程图
 
+[![op-batcher](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/rollup/op-proposer/op-proposer.png)](https://github.com/guoshijiang/how-dose-op-stack-work)
 
 ### 4.2.详细执行流程
 - FetchNextOutputInfo: 获取 L2 上的区块的 output，方便后续组装提交，output 结构如下
