@@ -381,6 +381,7 @@ return &eth.SyncStatus{
 
 #### 2.4.2 optimism_outputAtBlock 代码流程详解
 
+[![ethdeposit](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/optimistim-api/op-node-api1.png)](https://github.com/guoshijiang/how-dose-op-stack-work)
 
 Op-stack 在 op-geth 的 GetProof 方法里面 写了如下代码
 
