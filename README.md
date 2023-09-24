@@ -10,3 +10,6 @@
 
 #### 3.Op-stack rollup 流程详解 - [教程](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/rollup/README.md)
 
+#### 4.Optimistim op-node json rpc - [教程](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/optimistim-api/README.md)
+
+
