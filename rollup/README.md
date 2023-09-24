@@ -55,6 +55,7 @@ Op-stack 的 rollup 由两个服务来承担
 
 ### 4.2.详细执行流程
 - FetchNextOutputInfo: 获取 L2 上的区块的 output，方便后续组装提交，output 结构如下
+```
 type OutputResponse struct {
     Version               Bytes32     `json:"version"`
     OutputRoot            Bytes32     `json:"outputRoot"`
@@ -63,19 +64,23 @@ type OutputResponse struct {
     StateRoot             common.Hash `json:"stateRoot"`
     Status                *SyncStatus `json:"syncStatus"`
 }
+```
+
   - NextBlockNumber：获取下一批次需要提交的区块区间，区间计算为 latestBlockNumber() + SUBMISSION_INTERVAL SUBMISSION_INTERVAL 的值可以在部署L2OutputOracle 合约的时候指定。
   - SyncStatus：获取 L2 块的 SafeL2 和 FinalizedL2 的状态和块信息，
   - fetchOutput：上面检查完 nextCheckpointBlock 符合规则之后，去 L2 上获取需要提交的 stateRoot
     - OutputAtBlock: 根据块高获取 output, 里面包含 stateRoot，这里最终是调用 eth_getProof 去计算并获取 stateRoot，代码调用流程可以参考上图。
   提示: 这里并不是一个块提交一次 stateRoot, 而是根据 SUBMISSION_INTERVAL 配置的值来计算一批块的 stateRoot，最终将 stateRoot 提交到 L2OutputOracle 合约
 - sendTransaction：使用 output 构建 stateRoot 提交交易，将交易提交到一层链， 下面是交易打包的数据细节
+  
+```
 return abi.Pack(
     "proposeL2Output",
     output.OutputRoot,
     new(big.Int).SetUint64(output.BlockRef.Number),
     output.Status.CurrentL1.Hash,
     new(big.Int).SetUint64(output.Status.CurrentL1.Number))
-
+```
 
 ## 5.小结
 
