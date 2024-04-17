@@ -1,3 +1,6 @@
+[![English](https://img.shields.io/badge/English-README-blue)](EnglishReadme.md)
+
+
 # architecture
 
 [![architecture](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/architecture/images/architecture.png)](https://github.com/guoshijiang/how-dose-op-stack-work)

@@ -1,178 +1,178 @@
-[![English](https://img.shields.io/badge/English-README-blue)](EnglishReadme.md)
+[![Chinese](https://img.shields.io/badge/Chinese-README-blue)](README.md)
 
 
 # Optimistim op-node json rpc
 
-## 1. 概述
-- 启动服务之后默认接口 baseUrl: http://127.0.0.1:7545
+## 1. Overview
+- The default interface after starting the service baseUrl: http://127.0.0.1:7545
   
 ## 2. Optimism
-### 2.1 获取 op-stack 版本信息
-#### 2.1.1 optimism_version 接口调用
-- 接口名称：optimism_version
-- 请求方式：post
-- 请求示范：
-```  
+### 2.1 Get op-stack version information
+#### 2.1.1 optimism_version interface call
+- Interface name: optimization_version
+- Request method: post
+- Request a demonstration:
+```
 {
-    "jsonrpc":"2.0",
-    "method":"optimism_syncStatus",
-    "id":1
+     "jsonrpc":"2.0",
+     "method":"optimism_syncStatus",
+     "id":1
 }
-```  
-- 响应示范：
-```  
+```
+- Response demonstration:
+```
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "result": "v0.0.0-"
+     "jsonrpc": "2.0",
+     "id": 1,
+     "result": "v0.0.0-"
 }
-```  
-### 2.1.2 optimism_version 代码流程详解
+```
+### 2.1.2 Detailed explanation of optimism_version code process
 
-调用之后直接返回 version
+Return version directly after calling
 
-```  
+```
 func (n *nodeAPI) Version(ctx context.Context) (string, error) {
-    recordDur := n.m.RecordRPCServerRequest("optimism_version")
-    defer recordDur()
-    return version.Version + "-" + version.Meta, nil
+     recordDur := n.m.RecordRPCServerRequest("optimism_version")
+     defer recordDur()
+     return version.Version + "-" + version.Meta, nil
 }
-```  
-```  
+```
+```
 var (
-    Version = "v0.10.14"
-    Meta    = "dev"
+     Version = "v0.10.14"
+     Meta = "dev"
 )
 ```
 
-### 2.2 获取 op-stack rollup 配置信息
-#### 2.2.1 optimism_rollupConfig 接口调用
-- 接口名称：optimism_rollupConfig
-- 请求方式：post
-- 请求示范：
+### 2.2 Obtain op-stack rollup configuration information
+#### 2.2.1 optimism_rollupConfig interface call
+- Interface name: optimization_rollupConfig
+- Request method: post
+- Request a demonstration:
 ```
 {
-    "jsonrpc":"2.0",
-    "method":"optimism_rollupConfig",
-    "id":1
+     "jsonrpc":"2.0",
+     "method":"optimism_rollupConfig",
+     "id":1
 }
 ```
-- 响应示范
+- Response demonstration
 ```
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "result": {
-        "genesis": {
-            "l1": {
-                "hash": "0xc73a8389a5aaa20922df51c2847cd9385b1b5e0ba679b775f8a2630cd015cd51",
-                "number": 0
-            },
-            "l2": {
-                "hash": "0xce549f8a96ab878b17b7f19f770844044d188e5bba6d2ea3a63bae3360745b9c",
-                "number": 0
-            },
-            "l2_time": 1695096865,
-            "system_config": {
-                "batcherAddr": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
-                "overhead": "0x0000000000000000000000000000000000000000000000000000000000000834",
-                "scalar": "0x00000000000000000000000000000000000000000000000000000000000f4240",
-                "gasLimit": 30000000
-            }
-        },
-        "block_time": 2,
-        "max_sequencer_drift": 300,
-        "seq_window_size": 20000,
-        "channel_timeout": 120,
-        "l1_chain_id": 900,
-        "l2_chain_id": 901,
-        "regolith_time": 0,
-        "batch_inbox_address": "0xff00000000000000000000000000000000000000",
-        "deposit_contract_address": "0x6900000000000000000000000000000000000001",
-        "l1_system_config_address": "0x6900000000000000000000000000000000000009"
-    }
+     "jsonrpc": "2.0",
+     "id": 1,
+     "result": {
+         "genesis": {
+             "l1": {
+                 "hash": "0xc73a8389a5aaa20922df51c2847cd9385b1b5e0ba679b775f8a2630cd015cd51",
+                 "number": 0
+             },
+             "l2": {
+                 "hash": "0xce549f8a96ab878b17b7f19f770844044d188e5bba6d2ea3a63bae3360745b9c",
+                 "number": 0
+             },
+             "l2_time": 1695096865,
+             "system_config": {
+                 "batcherAddr": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+                 "overhead": "0x000000000000000000000000000000000000000000000000000000000000834",
+                 "scalar": "0x0000000000000000000000000000000000000000000000000000000000f4240",
+                 "gasLimit": 30000000
+             }
+         },
+         "block_time": 2,
+         "max_sequencer_drift": 300,
+         "seq_window_size": 20000,
+         "channel_timeout": 120,
+         "l1_chain_id": 900,
+         "l2_chain_id": 901,
+         "regolith_time": 0,
+         "batch_inbox_address": "0xff00000000000000000000000000000000000000",
+         "deposit_contract_address": "0x6900000000000000000000000000000000000001",
+         "l1_system_config_address": "0x6900000000000000000000000000000000000009"
+     }
 }
 ```
-#### 2.2.2 optimism_rollupConfig 代码流程详解
+#### 2.2.2 Detailed explanation of optimism_rollupConfig code process
 
 `RollupConfig(op-node/node/api.go)`->`n.config(op-node/node/api.go)`
 
-- 返回结构如下
+-The return structure is as follows
 ```
 type nodeAPI struct {
-    config *rollup.Config
-    client l2EthClient
-    dr     driverClient
-    log    log.Logger
-    m      rpcMetrics
+     config *rollup.Config
+     client l2EthClient
+     dr driverClient
+     log log.Logger
+     mrpcMetrics
 }
 ```
 ```
 type Config struct {
-    // Genesis anchor point of the rollup
-    Genesis Genesis `json:"genesis"`
-    // Seconds per L2 block
-    BlockTime uint64 `json:"block_time"`
-    // Sequencer batches may not be more than MaxSequencerDrift seconds after
-    // the L1 timestamp of the sequencing window end.
-    //
-    // Note: When L1 has many 1 second consecutive blocks, and L2 grows at fixed 2 seconds,
-    // the L2 time may still grow beyond this difference.
-    MaxSequencerDrift uint64 `json:"max_sequencer_drift"`
-    // Number of epochs (L1 blocks) per sequencing window, including the epoch L1 origin block itself
-    SeqWindowSize uint64 `json:"seq_window_size"`
-    // Number of L1 blocks between when a channel can be opened and when it must be closed by.
-    ChannelTimeout uint64 `json:"channel_timeout"`
-    // Required to verify L1 signatures
-    L1ChainID *big.Int `json:"l1_chain_id"`
-    // Required to identify the L2 network and create p2p signatures unique for this chain.
-    L2ChainID *big.Int `json:"l2_chain_id"`
+     // Genesis anchor point of the rollup
+     Genesis Genesis `json:"genesis"`
+     // Seconds per L2 block
+     BlockTime uint64 `json:"block_time"`
+     // Sequencer batches may not be more than MaxSequencerDrift seconds after
+     // the L1 timestamp of the sequencing window end.
+     //
+     // Note: When L1 has many 1 second consecutive blocks, and L2 grows at fixed 2 seconds,
+     // the L2 time may still grow beyond this difference.
+     MaxSequencerDrift uint64 `json:"max_sequencer_drift"`
+     // Number of epochs (L1 blocks) per sequencing window, including the epoch L1 origin block itself
+     SeqWindowSize uint64 `json:"seq_window_size"`
+     // Number of L1 blocks between when a channel can be opened and when it must be closed by.
+     ChannelTimeout uint64 `json:"channel_timeout"`
+     // Required to verify L1 signatures
+     L1ChainID *big.Int `json:"l1_chain_id"`
+     // Required to identify the L2 network and create p2p signatures unique for this chain.
+     L2ChainID *big.Int `json:"l2_chain_id"`
 
-    // RegolithTime sets the activation time of the Regolith network-upgrade:
-    // a pre-mainnet Bedrock change that addresses findings of the Sherlock contest related to deposit attributes.
-    // "Regolith" is the loose deposited rock that sits on top of Bedrock.
-    // Active if RegolithTime != nil && L2 block timestamp >= *RegolithTime, inactive otherwise.
-    RegolithTime *uint64 `json:"regolith_time,omitempty"`
+     // RegolithTime sets the activation time of the Regolith network-upgrade:
+     // a pre-mainnet Bedrock change that addresses findings of the Sherlock contest related to deposit attributes.
+     // "Regolith" is the loose deposited rock that sits on top of Bedrock.
+     // Active if RegolithTime != nil && L2 block timestamp >= *RegolithTime, inactive otherwise.
+     RegolithTime *uint64 `json:"regolith_time,omitempty"`
 
-    // Note: below addresses are part of the block-derivation process,
-    // and required to be the same network-wide to stay in consensus.
+     // Note: below addresses are part of the block-derivation process,
+     // and required to be the same network-wide to stay in consensus.
 
-    // L1 address that batches are sent to.
-    BatchInboxAddress common.Address `json:"batch_inbox_address"`
-    // L1 Deposit Contract Address
-    DepositContractAddress common.Address `json:"deposit_contract_address"`
-    // L1 System Config Address
-    L1SystemConfigAddress common.Address `json:"l1_system_config_address"`
+     // L1 address that batches are sent to.
+     BatchInboxAddress common.Address `json:"batch_inbox_address"`
+     // L1 Deposit Contract Address
+     DepositContractAddress common.Address `json:"deposit_contract_address"`
+     // L1 System Config Address
+     L1SystemConfigAddress common.Address `json:"l1_system_config_address"`
 }
 ```
 
-注意：op-batcher 和 op-preposer 启动的时候使用到这里面的信息，一旦配置发生改变，需要重新启动 op-node, 然后再重启 op-batcher 和 op-preposer  之后才能生效。
+Note: op-batcher and op-preposer use the information here when they start up. Once the configuration changes, you need to restart op-node, and then restart op-batcher and op-preposer to take effect.
 
-### 2.3 同步 op-stack Status 信息
-#### 2.3.1 optimism_syncStatus 接口调用
-- 接口名称：optimism_syncStatus
-- 请求方式：post
-- 请求示范：
+### 2.3 Synchronize op-stack Status information
+#### 2.3.1 optimism_syncStatus interface call
+- Interface name: optimization_syncStatus
+- Request method: post
+- Request a demonstration:
 
 ```
 {
-    "jsonrpc":"2.0",
-    "method":"optimism_syncStatus",
-    "id":1
+     "jsonrpc":"2.0",
+     "method":"optimism_syncStatus",
+     "id":1
 }
 ```
-- 响应示范：
+- Response demonstration:
 
 ```
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "result": {
-        "current_l1": {
-            "hash": "0x47db9d8d2a9d752dff26e645a8c42108cccc6b778df51253a5d3bad7cbe171b9",
-            "number": 1622,
-            "parentHash": "0x589f1d15637dc0f99266e1d3b2d4f21b4672c805c71fc1cae6320dd88c80fcf9",
-            "timestamp": 1695098493
+     "jsonrpc": "2.0",
+     "id": 1,
+     "result": {
+         "current_l1": {
+             "hash": "0x47db9d8d2a9d752dff26e645a8c42108cccc6b778df51253a5d3bad7cbe171b9",
+             "number": 1622,
+             "parentHash": "0x589f1d15637dc0f99266e1d3b2d4f21b4672c805c71fc1cae6320dd88c80fcf9",
+             "timestamp": 1695098493
         },
         "current_l1_finalized": {
             "hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -246,10 +246,10 @@ type Config struct {
 }
 ```
 
-#### 2.3.2 optimism_syncStatus 代码流程详解
+#### 2.3.2 Detailed explanation of optimism_syncStatus code flow
 `SyncStatus(op-node/node/api.go)`-> `SyncStatus(op-node/rollup/driver/state.go)`->`syncStatus(op-node/rollup/driver/state.go)`
 
-代码返回结构如下：
+The code return structure is as follows:
 
 ```
 return &eth.SyncStatus{
@@ -264,14 +264,13 @@ return &eth.SyncStatus{
     UnsafeL2SyncTarget: s.derivation.UnsafeL2SyncTarget(),
 }
 ```
+We can see that the return value contains the current unsafe, safe and finalized block information of L1 and L2. This interface is also used in the rollup service to obtain the currently submitted blocks (safe status) and L2 Block information that has been generated but not submitted (unSafe status).
 
-我们可以看到返回值里面包含了 L1 和 L2 当前的 unsafe, safe 和 finalized 的区块信息，这个接口也在 rollup 服务中被用到，用于获取目前已提交的区块(safe 状态) 和 L2 已出块未提交(unSafe 状态)的区块信息。
-
-### 2.4 获取 op-stack state root 输出信息
-#### 2.4.1 optimism_outputAtBlock 接口调用
-- 接口名称：optimism_outputAtBlock
-- 请求方式：post
-- 请求示范：
+### 2.4 Get op-stack state root output information
+#### 2.4.1 optimism_outputAtBlock interface call
+- Interface name: optimization_outputAtBlock
+- Request method: post
+- Request a demonstration:
 ```
 {
     "jsonrpc":"2.0",
@@ -280,7 +279,7 @@ return &eth.SyncStatus{
     "id":1
 }
 ```
-- 响应示范：
+- Response demonstration:
   
 ```
 {
@@ -386,7 +385,7 @@ return &eth.SyncStatus{
 
 [![ethdeposit](https://github.com/guoshijiang/how-dose-op-stack-work/blob/main/optimistim-api/op-node-api1.png)](https://github.com/guoshijiang/how-dose-op-stack-work)
 
-Op-stack 在 op-geth 的 GetProof 方法里面 写了如下代码
+Op-stack wrote the following code in the GetProof method of op-geth
 
 ```
 if s.b.ChainConfig().IsOptimismPreBedrock(header.Number) {
@@ -403,7 +402,7 @@ if s.b.ChainConfig().IsOptimismPreBedrock(header.Number) {
 }
 ```
 
-这里最终会返回传人的地址到对应块的 account 的 Proof, 代码如下：
+Here, the passed address will eventually be returned to the Proof of the account of the corresponding block. The code is as follows:
 
 ```
 // Result structs for GetProof
@@ -418,49 +417,48 @@ type AccountResult struct {
 }
 ```
 
-我们追踪代码流程可以发现这里传入的地址是 L2ToL1MessagePasserAddr 预部署合约的地址，也就是是最终生成出来的 stateroot 是基于 L2ToL1MessagePasserAddr 一个 Account proof 的 state root。
+When we trace the code process, we can find that the address passed here is the address of the L2ToL1MessagePasserAddr pre-deployment contract, which means that the final generated stateroot is the state root based on an Account proof of L2ToL1MessagePasserAddr.
 
-op-proposer 抓取提交的 stateroot 就是通过该接口实现的。
+op-proposer Fetching the submitted stateroot is implemented through this interface.
 
-## 3. Admin
-### 3.1 启动 seqeuencer
-#### 3.1.1 admin_startSequencer 接口调用
-- 接口名称：admin_startSequencer
-- 请求方式：post
-- 请求示范：
+## 3.Admin
+### 3.1 Start seqeuencer
+#### 3.1.1 admin_startSequencer interface call
+- Interface name: admin_startSequencer
+- Request method: post
+- Request a demonstration:
 ```
 ```
-- 响应示范：
-```
-```
-
-#### 3.1.2 admin_startSequencer 代码流程详解
-
-### 3.2 停止 seqeuencer
-#### 3.2.1 admin_stopSequencer 接口调用
-- 接口名称：admin_stopSequencer
-- 请求方式：post
-- 请求示范：
+- Response demonstration:
 ```
 ```
 
-- 响应示范：
+#### 3.1.2 Detailed explanation of admin_startSequencer code process
+
+### 3.2 Stop seqeuencer
+#### 3.2.1 admin_stopSequencer interface call
+- Interface name: admin_stopSequencer
+- Request method: post
+- Request a demonstration:
 ```
 ```
 
-#### 3.2.2 admin_stopSequencer 代码流程详解
-
-### 3.3 重置推导流程
-#### 3.3.1 admin_resetDerivationPipeline 接口调用
-- 接口名称：admin_resetDerivationPipeline
-- 请求方式：post
-- 请求示范：
+- Response demonstration:
 ```
 ```
 
-- 响应示范：
+#### 3.2.2 Detailed explanation of admin_stopSequencer code flow
+
+### 3.3 Reset the derivation process
+#### 3.3.1 admin_resetDerivationPipeline interface call
+- Interface name: admin_resetDerivationPipeline
+- Request method: post
+- Request a demonstration:
 ```
 ```
 
-#### 3.3.2 admin_resetDerivationPipeline 代码流程详解
+- Response demonstration:
+```
+```
 
+#### 3.3.2 Detailed explanation of admin_resetDerivationPipeline code process
