@@ -126,7 +126,7 @@ Regarding the recharge of ERC721, the current logic is fragmented and not comple
 -User
    - The user calls withdraw to withdraw coins to his own address, or calls withdrawTo to withdraw money to the specified to address;
 - L2StandardBridge
-   - Both withdraw and withdrawTo will call _initiateWithdrawal; this method will determine whether it is an ETH withdrawal or an ERC20 deposit.
+   - Both withdraw and withdrawTo will call _initiateWithdrawal; this method will determine whether it is an ETH withdrawal or an ERC20 withdrawal.
 - CrossDomainMessenger & L2CrossDomainMessenger
    - For ETH withdrawal, enter the _initiateBridgeETH function, which will call the sendMessage method of the CrossDomainMessenger contract. After the logic in the sendMessage method is successful, msgNonce will be incremented by 1, and then the _sendMessage method of the L2CrossDomainMessenger will be called.
 -L2ToL1MessagePasser
