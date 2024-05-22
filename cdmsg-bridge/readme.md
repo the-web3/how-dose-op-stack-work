@@ -126,7 +126,7 @@ receive() external payable override onlyEOA {
 - User
   - 用户调用 withdraw 给自己的地址提币，或者调用 withdrawTo 给指定的 to 地址提现；
 - L2StandardBridge
-  - withdraw 和 withdrawTo 都会去 call  _initiateWithdrawal; 该方法里面会去判断是 ETH 的提现还是 ERC20 的充值
+  - withdraw 和 withdrawTo 都会去 call  _initiateWithdrawal; 该方法里面会去判断是 ETH 的提现还是 ERC20 的提现
 - CrossDomainMessenger & L2CrossDomainMessenger
   - 若是 ETH 提现， 进入 _initiateBridgeETH 函数，该函数会去调用 CrossDomainMessenger 合约的sendMessage 方法，sendMessage 方法里面的逻辑成功后会对 msgNonce 自增 1，然后调用进入到了 L2CrossDomainMessenger 的 _sendMessage 方法。
 - L2ToL1MessagePasser
